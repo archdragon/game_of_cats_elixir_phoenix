@@ -17,6 +17,7 @@ defmodule GameOfCats.Account do
   def changeset(model, params \\ :empty) do
     model
     |> cast(params, ~w(name password), ~w())
+    |> validate_length(:name, min: 1, max: 32)
     |> validate_length(:password, min: 4, max: 32)
     |> unique_constraint(:name)
     |> encrypt_password
