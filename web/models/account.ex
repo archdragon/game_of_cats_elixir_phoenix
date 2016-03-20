@@ -20,13 +20,15 @@ defmodule GameOfCats.Account do
     |> validate_length(:name, min: 1, max: 32)
     |> validate_length(:password, min: 4, max: 32)
     |> unique_constraint(:name)
-    |> encrypt_password
+    |> encrypt_password()
   end
 
   defp encrypt_password(changeset) do
-    encrypted_password = get_change(changeset, :password) |> Auth.encrypt_password
-
-    changeset
-    |> put_change(:encrypted_password, encrypted_password)
+    if changeset.valid? do
+      encrypted = Auth.encrypt_password(changeset.changes.password)
+      put_change(changeset, :encrypted_password, encrypted)
+    else
+      changeset
+    end
   end
 end

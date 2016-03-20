@@ -3,7 +3,7 @@ defmodule GameOfCats.AccountTest do
 
   alias GameOfCats.Account
 
-  @valid_attrs %{encrypted_password: "some content", name: "some content"}
+  @valid_attrs %{name: "admin", password: "secret"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
