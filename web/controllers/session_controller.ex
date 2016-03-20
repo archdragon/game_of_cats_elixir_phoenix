@@ -24,15 +24,10 @@ defmodule GameOfCats.SessionController do
     end
   end
 
-  def delete(conn, %{"id" => id}) do
-    session = Repo.get!(Session, id)
-
-    # Here we use delete! (with a bang) because we expect
-    # it to always work (and if it does not, it will raise).
-    Repo.delete!(session)
-
+  def delete(conn, _params) do
     conn
-    |> put_flash(:info, "Session deleted successfully.")
-    |> redirect(to: session_path(conn, :index))
+    |> clear_session
+    |> put_flash(:info, "Signed out successfully!")
+    |> redirect(to: "/")
   end
 end

@@ -26,4 +26,20 @@ defmodule GameOfCats.SessionControllerTest do
     conn = get conn, "/"
     assert html_response(conn, 200) =~ "Session invalid"
   end
+
+  test "sign out" do
+    Account.create(%{name: "admin", password: "secret"}) |> Repo.insert!
+
+    params = %{account: %{name: "admin", password: "secret"}}
+    conn = post conn, session_path(conn, :create), params
+    assert conn.status == 302
+
+    conn = get conn, "/"
+    assert html_response(conn, 200) =~ "Signed in as admin"
+
+    conn = delete conn, session_path(conn, :delete)
+
+    conn = get conn, "/"
+    assert html_response(conn, 200) =~ "Not signed in"
+  end
 end
