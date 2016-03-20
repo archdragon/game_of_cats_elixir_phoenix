@@ -10,5 +10,5 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
-%GameOfCats.Account{name: "admin", encrypted_password: "password"}
+GameOfCats.Account.create(%{name: "admin", password: "password"})
 |> GameOfCats.Repo.insert!
