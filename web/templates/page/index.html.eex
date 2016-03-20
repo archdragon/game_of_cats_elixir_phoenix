@@ -3,6 +3,13 @@
   <p class="lead">A productive web framework that<br />does not compromise speed and maintainability.</p>
 </div>
 
+<%= if @current_account do %>
+  Signed in as <%= @current_account.name %>
+<% else %>
+  Not signed in
+<% end %>
+
+
 <div class="row marketing">
   <div class="col-lg-6">
     <h4>Resources</h4>

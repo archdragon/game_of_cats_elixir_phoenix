@@ -1,0 +1,5 @@
+h2 Edit session
+
+= render "form.html", changeset: @changeset, action: session_path(@conn, :update, @session)
+
+= link "Back", to: session_path(@conn, :index)
