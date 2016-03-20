@@ -23,10 +23,6 @@ defmodule GameOfCats.Router do
     pipe_through :browser # Use the default browser stack
     get "/", SessionController, :new
     post "/", SessionController, :create
+    delete "/", SessionController, :delete
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", GameOfCats do
-  #   pipe_through :api
-  # end
 end

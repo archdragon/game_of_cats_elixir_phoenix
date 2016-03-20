@@ -1,9 +1,6 @@
 h2 New session
 
-= form_for @changeset, session_path(@conn, :create), fn f ->
-  = if @changeset.action do
-    .alert.alert-danger
-      p Oops, something went wrong! Please check the errors below.
+= form_for @account, session_path(@conn, :create), fn f ->
   .form-group
     label
       span Name

@@ -1,24 +1,34 @@
 defmodule GameOfCats.Account do
   use GameOfCats.Web, :model
+  alias GameOfCats.Auth
 
   schema "accounts" do
     field :name, :string
+    field :password, :string, virtual: true
     field :encrypted_password, :string
 
     timestamps
   end
 
-  @required_fields ~w(name encrypted_password)
-  @optional_fields ~w()
+  def create(params) do
+    changeset(%GameOfCats.Account{}, params)
+  end
 
-  @doc """
-  Creates a changeset based on the `model` and `params`.
-
-  If no params are provided, an invalid changeset is returned
-  with no validation performed.
-  """
   def changeset(model, params \\ :empty) do
     model
-    |> cast(params, @required_fields, @optional_fields)
+    |> cast(params, ~w(name password), ~w())
+    |> validate_length(:name, min: 1, max: 32)
+    |> validate_length(:password, min: 4, max: 32)
+    |> unique_constraint(:name)
+    |> encrypt_password()
+  end
+
+  defp encrypt_password(changeset) do
+    if changeset.valid? do
+      encrypted = Auth.encrypt_password(changeset.changes.password)
+      put_change(changeset, :encrypted_password, encrypted)
+    else
+      changeset
+    end
   end
 end
